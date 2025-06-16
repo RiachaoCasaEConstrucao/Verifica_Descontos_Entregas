@@ -10,14 +10,20 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        
         body {
             background-color: #f5f7fa;
-            margin: 0;
-            padding: 20px;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start; /* Alterado para flex-start para scroll */
             min-height: 100vh;
+            padding: 20px;
+            overflow-y: auto; /* Habilita scroll vertical quando necessário */
         }
         
         .container {
@@ -27,6 +33,7 @@
             padding: 30px;
             width: 100%;
             max-width: 500px;
+            margin: 20px 0;
         }
         
         .title {
@@ -122,6 +129,69 @@
             margin-top: 20px;
             font-style: italic;
         }
+
+        /* Media Queries para Responsividade */
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+            
+            .container {
+                padding: 20px;
+                margin: 10px 0;
+                border-radius: 8px;
+            }
+            
+            .title {
+                font-size: 20px;
+                margin-bottom: 15px;
+            }
+            
+            .input {
+                padding: 10px;
+                font-size: 15px;
+            }
+            
+            .button {
+                padding: 12px;
+                font-size: 16px;
+            }
+            
+            .resultado {
+                margin-top: 20px;
+                padding: 12px;
+            }
+            
+            .autorizado, .negado {
+                font-size: 19px;
+            }
+            
+            .destaque {
+                font-size: 18px;
+            }
+            
+            .label {
+                font-size: 15px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .title {
+                font-size: 18px;
+            }
+            
+            .observacao {
+                font-size: 13px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -171,6 +241,9 @@
             if (isNaN(v) || isNaN(p) || isNaN(dist)) {
                 resultadoDiv.innerHTML = '<p class="negado">Preencha todos os campos corretamente.</p>';
                 resultadoDiv.style.display = 'block';
+                
+                // Rolagem suave para o resultado
+                resultadoDiv.scrollIntoView({ behavior: 'smooth' });
                 return;
             }
             
@@ -183,6 +256,7 @@
                     <p>Infelizmente não é possível realizar entrega expressa para este peso.</p>
                 `;
                 resultadoDiv.style.display = 'block';
+                resultadoDiv.scrollIntoView({ behavior: 'smooth' });
                 return;
             }
             
@@ -213,7 +287,18 @@
             }
             
             resultadoDiv.style.display = 'block';
+            // Rolagem suave para o resultado
+            resultadoDiv.scrollIntoView({ behavior: 'smooth' });
         }
+
+        // Adicionando suporte para tecla Enter
+        document.querySelectorAll('.input').forEach(input => {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    calcularDescontoMaximo();
+                }
+            });
+        });
     </script>
 </body>
 </html>
